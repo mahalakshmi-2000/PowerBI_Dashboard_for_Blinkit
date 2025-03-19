@@ -1,0 +1,187 @@
+ID,TableID,Table Name,Expression ,,,,,,
+162867,158965,Check_Icon,"""https://i.postimg.cc/xCkwbbNQ/check-5.png""",,,,,,69b2f5c3-edf9-4cfa-bc09-b88a9aebb9f1
+161583,158965,Period_Marketing_Value,"var selected_Period = [Selected_Period] 
+var selected_Month = [YTDMOnth] 
+var StartIndex = selected_Month-selected_Period
+
+var Period_Value =CALCULATE([Marketing_Value],'Calendar'[MonthIndex]>=StartIndex,
+'Calendar'[MonthIndex]<selected_Month) 
+
+ RETURN IF(selected_Period=0,[Marketing_YTD],Period_Value)",,,,,,4df0bf58-5ee1-40a3-8e88-6693cc63bf53
+160726,158965,Marketing_Value,SUM(Marketing[Value]),,,,,,daa7eb07-e9eb-4ca2-a1da-a552a4af74d7
+159869,158965,Marketing_YTD,"var YTDSysMonth= [YTDMOnth]
+return
+CALCULATE([Marketing_Value],'Calendar'[MonthIndex]<=YTDSysMonth)",,,,,,c876efda-13c0-4c2f-9f9f-947f0a7d78ec
+157475,101131,Damaged_Stock%,"DIVIDE([damaged_stock],[Period_Inventory_Value])",,,,,,329bab9f-1cc8-4182-bd1d-5deb684774db
+156188,101131,Inventory_Available_Stock%,"DIVIDE([Available_Stock],[Period_Inventory_Value])",,,,,,5d85fea1-0c23-4f99-ade7-fc3f8bd769fe
+155324,101131,Stock_Movement%,"DIVIDE([Period_Value],[Period_Inventory_Value])",,,,,,3707977b-febb-42ae-b221-eb5fb6623f01
+154467,101131,Available_Stock,[Period_Inventory_Value]-[Period_Value],,,,,,550fafb1-444d-4b94-a39c-b7f74dfd9f3c
+153610,101131,damaged_stock,"CALCULATE([Period_Inventory_Value],Inventory[Stock_Type]=""damaged_stock"")",,,,,,9a71f17e-7e63-4fae-b743-35905160d598
+152753,101131,stock_received,"CALCULATE([Period_Inventory_Value],Inventory[Stock_Type]=""stock_received"")",,,,,,a093a0c6-e004-4e3d-8b60-78a7a89eb4dd
+122386,101131,Period_Inventory_Value,"var selected_Period = [Selected_Period] 
+var selected_Month = [YTDMOnth] 
+var StartIndex = selected_Month-selected_Period
+
+var Period_Value =CALCULATE([Inventory_Value],'Calendar'[MonthIndex]>=StartIndex,
+'Calendar'[MonthIndex]<selected_Month) 
+
+ RETURN IF(selected_Period=0,[Inventory_YTD],Period_Value)",,,,,,94f41543-3e34-4d94-8a6b-df50c564253f
+121102,101131,Inventory_Value,SUM(Inventory[Value]),,,,,,ef2b7e54-dd5e-4a11-8e24-2296ede8fb25
+120245,101131,Inventory_YTD,"var YTDSysMonth= [YTDMOnth]
+return
+CALCULATE([Inventory_Value],'Calendar'[MonthIndex]<=YTDSysMonth)",,,,,,6520329a-b42f-48e3-81f2-fee1f0f2f08d
+98940,57444,YTD_feedbacks,"var YTDSysMonth= [YTDMOnth]
+return
+CALCULATE([Total_Feedbacks],'Calendar'[MonthIndex]<=YTDSysMonth)",,,,,,4bae1c53-ed41-4092-9b80-83ebb9b40d28
+98084,57444,Period_Feedbacks,"var selected_Period = [Selected_Period] 
+var selected_Month = [YTDMOnth] 
+var StartIndex = selected_Month-selected_Period
+
+var Period_Value =
+CALCULATE([Total_Feedbacks],'Calendar'[MonthIndex]>=StartIndex,'Calendar'[MonthIndex]<selected_Month)
+
+RETURN IF(selected_Period=0,[YTD_feedbacks],Period_Value)",,,,,,5d821148-bbe1-4ed6-ada8-4a1ce7b1e25d
+96801,57444,Total_Feedbacks,DISTINCTCOUNT(MasterTable[feedback_id]),,,,,,40f9c6da-4526-49e5-8abf-066eb33d9444
+95518,57444,Measure,,,,,,,8d1824c6-7025-49a7-87c6-e0bfa9f9b1e8
+89036,21254,Order_Count_Label,"""Customer who order more then ""&MAX(Order_Filter_Table[Value])&"" times""",,,,,,a722d757-f4b2-4165-b038-93be8b309d93
+86899,57444,Repeat_Customers_Dynamic,"var orderCount= MAX(Order_Filter_Table[Value])
+var CustomerData =SUMMARIZE(MasterTable,MasterTable[customer_id])
+var FilterObj = 
+FILTER(CustomerData,[Period_Orders]>=orderCount)
+
+var val =CALCULATE([Period_Customers],FilterObj)
+return IF(ISBLANK(val),0,val)",,,,,,8b032d66-9570-4f88-8dd1-ff1fdf85a788
+82930,57444,Repeat_Customer_Sale_PY,"var PY= [Prev_Year]
+ return
+ CALCULATE([Repeat_Customers_Sale],'Calendar'[Year]=PY)",,,,,,e0e68675-c36c-430b-9308-b90cede6f883
+82073,57444,Repeat_Customer_Sale_CY,"var CY= [Curr_Year]
+ return
+ CALCULATE([Repeat_Customers_Sale],'Calendar'[Year]=CY)",,,,,,e43a932b-4d7c-4411-94e6-0ce154ac4609
+81216,57444,Repeat_Customers_Sale,"var CustomerData =SUMMARIZE(MasterTable,MasterTable[customer_id])
+var FilterObj = 
+FILTER(CustomerData,[Period_Orders]>=2)
+
+RETURN CALCULATE([Period_Value],FilterObj)",,,,,,642d2152-fc13-423b-b454-afa2a78a4a39
+79931,57444,Repeat_Customer_Count_PY,"var PY= [Prev_Year]
+ return
+ CALCULATE([Repeat_Customers],'Calendar'[Year]=PY)",,,,,,a9bedf33-155d-4d61-a36a-2177535b4c90
+79075,57444,Repeat_Customer_Count_CY,"var CY= [Curr_Year]
+ return
+ CALCULATE([Repeat_Customers],'Calendar'[Year]=CY)",,,,,,454b1f88-1928-4fa2-bfa6-cd0a3ff02623
+78219,57444,Repeat_Customers,"var CustomerData =SUMMARIZE(MasterTable,MasterTable[customer_id])
+var FilterObj = 
+FILTER(CustomerData,[Period_Orders]>=2)
+
+RETURN CALCULATE([Period_Customers],FilterObj)",,,,,,8f161942-e93b-47d9-ad58-760bb687caa1
+77363,7966,YTD_Orders,"var YTDSysMonth= [YTDMOnth]
+return
+CALCULATE([Order_ID_Count],'Calendar'[MonthIndex]<=YTDSysMonth)",,,,,,64dfd96b-d9f4-478d-887f-c073889e76c3
+76506,7966,Period_Orders,"var selected_Period = [Selected_Period] 
+var selected_Month = [YTDMOnth] 
+var StartIndex = selected_Month-selected_Period
+
+var Period_Value =
+CALCULATE([Order_ID_Count],'Calendar'[MonthIndex]>=StartIndex,'Calendar'[MonthIndex]<selected_Month)
+
+RETURN IF(selected_Period=0,[YTD],Period_Value)",,,,,,ad92904d-0fc0-499d-845c-21fbea3e9b2d
+75650,7966,Order_ID_Count,DISTINCTCOUNT(MasterTable[order_id]),,,,,,19a75536-620a-45d8-ace5-46debc899889
+74366,57444,Customers_Growth,"var CUSTCY= Customer_Measures[Period_Customers_CY]
+var CUSTPY =Customer_Measures[Period_Customers_PY]
+RETURN DIVIDE(CUSTCY-CUSTPY,CUSTPY)",,,,,,c8671d51-6625-4a39-a884-72635be86bdf
+73083,21254,Customer_Rank_Title,"SELECTEDVALUE(Rank_Table[Option])&"" Customer ""&[Selected_Sale_or_QTY]",,,,,,297cfda4-7b6b-4bf2-a590-cdf4547b3fa1
+71799,57444,TopN_Customer_by_Value,"var RankValue =RANKX(ALL(MasterTable[customer_name]),[Period_Value],,DESC)
+
+var _Rank = SELECTEDVALUE(Rank_Table[Value])
+
+var Rank_TopN_Value= IF(RankValue<=_Rank,[Period_Value],BLANK())
+
+return IF(_Rank=0,[Period_Value],Rank_TopN_Value)",,,,,,b17ce1d7-9579-4629-8c5f-042e765b0993
+70935,57444,New_Customers_Sale,"var FilterCustomers =FILTER(
+SUMMARIZE(MasterTable,MasterTable[customer_id]),
+[Previous_Year_value]<=0 && [Current_Year_value]>0
+)
+
+RETURN CALCULATE([Period_Value],FilterCustomers)",,,,,,814aea73-d1aa-425e-8bfb-3a1d5f0f01a1
+70078,57444,Lost_Customers_Sale,"var FilterCustomers =FILTER(
+SUMMARIZE(MasterTable,MasterTable[customer_id]),
+[Previous_Year_value]>0 && [Current_Year_value]<=0
+)
+
+RETURN CALCULATE([Period_Value],FilterCustomers)",,,,,,dbde23e8-abbe-4236-9806-4b7e7ae8b5d2
+69222,57444,Lost_Customers,"var FilterCustomers =FILTER(
+SUMMARIZE(MasterTable,MasterTable[customer_id]),
+[Previous_Year_value]>0 && [Current_Year_value]<=0
+)
+
+RETURN CALCULATE([Period_Customers],FilterCustomers)",,,,,,a8dcee25-8d67-4d32-a6e7-7e70c4416bce
+63986,57444,New_Customers,"var FilterCustomers =FILTER(
+SUMMARIZE(MasterTable,MasterTable[customer_id]),
+[Previous_Year_value]<=0 && [Current_Year_value]>0
+)
+
+RETURN CALCULATE([Period_Customers],FilterCustomers)",,,,,,b9196e42-4c1c-4c11-8508-f4a04eeb0bb1
+63125,57444,Period_Customers_PY,"var cy= [Prev_Year]
+return
+CALCULATE([Period_Customers],'Calendar'[Year]=cy)",,,,,,76eff0b0-df36-4747-91fc-498d695430fd
+61842,57444,Period_Customers_CY,"var cy= [Curr_Year]
+return
+CALCULATE([Period_Customers],'Calendar'[Year]=cy)",,,,,,fe77291e-a8e3-4091-84ea-641f3e2074ac
+59808,57444,Period_Customers,"var selected_Period = [Selected_Period] 
+var selected_Month = [YTDMOnth] 
+var StartIndex = selected_Month-selected_Period
+
+var Period_Value =
+CALCULATE([Total_Customer_Count],'Calendar'[MonthIndex]>=StartIndex,'Calendar'[MonthIndex]<selected_Month)
+
+RETURN IF(selected_Period=0,[YTD_Customer_Counts],Period_Value)",,,,,,5b234b50-03e3-4c17-b217-4a6f2c7f27eb
+59036,57444,YTD_Customer_Counts,"var YTDSysMonth= [YTDMOnth]
+return
+CALCULATE([Total_Customer_Count],'Calendar'[MonthIndex]<=YTDSysMonth)",,,,,,1e9c7ae1-03d6-4ab9-83e8-34c21164a446
+58264,57444,Total_Customer_Count,DISTINCTCOUNT(MasterTable[customer_id]),,,,,,f4c9d08d-e65d-44b4-b20b-1b1f4f09e3d2
+56287,21254,Area_Rank_Title,"SELECTEDVALUE(Rank_Table[Option])&"" Area ""&[Selected_Sale_or_QTY]",,,,,,e0bcbeda-1db9-4524-9404-54c359dce9f2
+55515,21254,Product_Rnk_Title,"SELECTEDVALUE(Rank_Table[Option])&"" Products ""&[Selected_Sale_or_QTY]",,,,,,a945a01a-578f-49b8-bf68-59ae0b1ff086
+54354,7966,TopN_Product_by_Value,"var RankValue =RANKX(ALL(MasterTable[product_name]),[Period_Value],,DESC)
+var _Rank = SELECTEDVALUE(Rank_Table[Value])
+var Rank_TopN_Value= IF(RankValue<=_Rank,[Period_Value],BLANK())
+return IF(_Rank=0,[Period_Value],Rank_TopN_Value)",,,,,,661dd6bb-a03c-4d96-b781-3abef89101cd
+50501,7966,TopN_Area_by_Value,"var RankValue =RANKX(ALL(MasterTable[area]),[Period_Value],,DESC)
+var _Rank = SELECTEDVALUE(Rank_Table[Value])
+var Rank_TopN_Value= IF(RankValue<=_Rank,[Period_Value],BLANK())
+return IF(_Rank=0,[Period_Value],Rank_TopN_Value)",,,,,,66ad2afb-9657-4cea-9298-0da1195f6b2d
+33501,7966,Post_&_Neg_Growth_Txt_Color,"IF([CY_PY_Growth%]>=0,""#035505"",""##DE6A73"")",,,,,,cf62177c-c8f2-4762-a6db-7a03f281de72
+31525,7966,Post_&_Neg_Growth_bg_Color,"IF([CY_PY_Growth%]>=0,""#C2F0C3"",""#F6D7D9"")",,,,,,91720334-b04c-4e39-852c-ffe7fbd620fc
+30204,21254,Sale_Option_PY_Year_Title,"SELECTEDVALUE(Value_Options[Value_Type])&"" ""&Configuration[Prev_Year]",,,,,,4370df89-3fb6-4257-8e08-a7245b08bdde
+28555,21254,Sale_Option_CY_Year_Title,"SELECTEDVALUE(Value_Options[Value_Type])&"" ""&Configuration[Curr_Year]",,,,,,5fbb4833-b3f8-4756-9702-9df572c5a01b
+26907,7966,CY_PY_Growth%,"DIVIDE( [Current_Year_value]-[Previous_Year_value] , [Previous_Year_value] )",,,,,,967b107c-39d7-40d6-84eb-7906b3e93433
+26247,21254,Sale_and_PY_year_Title,"[Select_Timeperiod_Label]&"" ""&[Selected_Sale_or_QTY]&"" ""&[Prev_Year]",,,,,,5f254594-3bff-4549-b03f-de4bb8616616
+24600,21254,Select_Timeperiod_Label,SELECTEDVALUE(Time_Period[Options]),,,,,,547bf8b4-bc7d-41d4-910e-d45fa9456efd
+22622,21254,Selected_Sale_or_QTY,SELECTEDVALUE(Value_Options[Value_Type]),,,,,,582a846d-b617-4a2e-9cb4-e1c96d9292cd
+21962,21254,Sale_and_CY_year_Title,"[Select_Timeperiod_Label]&"" ""&[Selected_Sale_or_QTY]&"" ""&[Curr_Year]",,,,,,7ba0b214-8d45-4c85-bc33-9418d17b8a84
+20591,7966,Previous_Year_value,"var Curryear = [Prev_Year]
+ RETURN
+ CALCULATE([Period_Value],'Calendar'[Year]=Curryear)",,,,,,84bce4cc-e8cf-4dfd-adb1-c1cc015f9160
+19272,7966,Current_Year_value,"var Curryear = [Curr_Year]
+ RETURN
+ CALCULATE([Period_Value],'Calendar'[Year]=Curryear)",,,,,,30480e67-d80f-43a3-8bfd-a4cd984a7a5f
+16963,4189,Selected_Period,SELECTEDVALUE(Time_Period[Value]),,,,,,cc3c9dae-b063-46f6-8268-fb8c523ce034
+15973,7966,Period_Value,"var selected_Period = [Selected_Period] 
+var selected_Month = [YTDMOnth] 
+var StartIndex = selected_Month-selected_Period
+
+var Period_Value =
+CALCULATE([Value],'Calendar'[MonthIndex]>=StartIndex,'Calendar'[MonthIndex]<selected_Month)
+
+RETURN IF(selected_Period=0,[YTD],Period_Value)",,,,,,4692c26d-b33b-4139-9b6a-32b562e4d5be
+10202,4189,YTDMOnth,"var sysMonth = MONTH([System_Date])
+var SelectYTDMonth = SELECTEDVALUE(Manual_Calendar[MonthIndex])
+RETURN IF(ISFILTERED(AUTO_DATE[Options]),sysMonth,SelectYTDMonth)",,,,,,90b0cdda-fce9-401f-af86-29e6d8eaddd4
+9821,7966,YTD,"var YTDSysMonth= [YTDMOnth]
+return
+CALCULATE([Value],'Calendar'[MonthIndex]<=YTDSysMonth)",,,,,,4731b1aa-8db8-4816-9d5e-0d97219f9f27
+9440,7966,Value,SUM(MasterTable[Value]),,,,,,4a942bda-9712-4302-bf59-3e4abe846c52
+5664,4189,System_Date,NOW(),,,,,,a85e6292-433b-4eae-bc9a-21d6741adbbf
+4241,4189,Prev_Year,[Curr_Year]-1,,,,,,4dc42735-90c7-488d-a10e-60d497063bce
+4239,4189,Curr_Year,"var yr= 2025
+var Sys_Yr = YEAR([System_Date])
+
+RETURN IF(ISFILTERED(AUTO_DATE[Options]),Sys_Yr,yr)",,,,,,0cfaa36e-e2fd-47ca-8bd2-18d9a8f7a924
