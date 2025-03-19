@@ -11,17 +11,23 @@ Import Kaggle datasets into MySQL using structured tables.
 Configure the MySQL ODBC Connector for Power BI.
 Use Power Query to clean, transform, and structure data.
 Build interactive visualizations and define key metrics.
+
+
 📌 Key Features & Metrics
 ✅ Sales Overview: Year-over-year growth, conversion rates, revenue insights.
 ✅ Marketing Performance: Clicks, impressions, ad spend, and ROAS.
 ✅ Customer Insights: Active users, segmentation, and sales contributions.
 ✅ Inventory Management: Stock availability, damaged stock percentage.
-✅ Feedback Analysis: Customer reviews and sentiment scoring.
+✅ Feedback Analysis: Customer reviews and sentiment scoring. 
+
+
 
 🎛 Interactive Filter Panel
 ✔️ Date Range Selection: Filter data by Last Month, YTD, Last 6 Months, etc.
 ✔️ Multi-Level Filtering: Analyze by area, product name, customer segment.
 ✔️ Metric Switcher: Toggle between Quantity & Value for deeper insights.
+
+
 
 📈 Key Insights
 📉 -6.87% decline in YoY sales suggests the need for improved strategies.
@@ -29,12 +35,17 @@ Build interactive visualizations and define key metrics.
 📢 Strong customer engagement with high conversion rates.
 🎯 Marketing effectiveness needs improvement based on click-through and impression trends.
 
+
+
 📂 Project Structure
 📁 Blinkit-Dashboard  
 │-- 📂 Data (Kaggle datasets)  
 │-- 📂 SQL_Scripts (Database setup scripts)  
 │-- 📂 PowerBI_Files (PBIX Dashboard file)  
 │-- 📜 README.md (Project Documentation)  
+
+
+
 🔗 How to Use
 1️⃣ Clone the repository:
 **git clone https://github.com/your-username/blinkit-powerbi-dashboard.git**
